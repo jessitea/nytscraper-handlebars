@@ -1,0 +1,35 @@
+/*Main Styling for all pages*/
+html{
+	position: relative;
+	min-height: 100%;
+}
+body {
+	background-color: gray;
+	color: #fff;
+	margin-bottom: 60px;
+}
+
+div.jumbotron {
+	background-image: url("../img/morningnews.jpg");
+	font-family: 'Abril Fatface', cursive;
+	color: #f0eeec;
+	font-weight: bold;
+	text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+div.article {
+
+	background-color: #f0eeec;
+	font-family: 'Fresca', sans-serif;
+	padding: 5px;
+	margin: 5px;
+	border-radius: 5px;
+}
+
+h1.welcome {
+	color: black;
+}
