@@ -33,3 +33,12 @@ div.article {
 h1.welcome {
 	color: black;
 }
+
+button.article {
+	display: inline-block;
+}
+
+h3{
+	display: inline-block;
+	width: 80%;
+}

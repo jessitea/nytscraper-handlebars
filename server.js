@@ -96,6 +96,10 @@ app.get("/scrape", function(req, res) {
       if (articles.length <= 10) {
       	articles.push(entry);
       }
+
+      else if (result.title === "" || result.link === ""){
+      	console.log("Blank entry");
+      }
       else {
 
       	console.log("Greater than 10 articles");
@@ -142,6 +146,8 @@ app.post("/articles/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   var newNote = new Note(req.body);
 
+  console.log("posted");
+
   // And save the new note the db
   newNote.save(function(error, doc) {
     // Log any errors
@@ -160,17 +166,52 @@ app.post("/articles/:id", function(req, res) {
         }
         else {
           // Or send the document to the browser
-          res.send(doc);
+          res.redirect('back');
         }
       });
     }
   });
 });
 
+app.get("/marksaved/:id", function(req, res) {
+  // Remember: when searching by an id, the id needs to be passed in
+  // as (mongojs.ObjectId(IDYOUWANTTOFIND))
+
+  Article.update({
+    "_id": req.params.id
+  },{
+    $set: {
+      "saved": true
+    }
+  },
+  function(error, edited){
+
+    if(error){
+      console.log(error);
+      res.send(error);
+    }
+    else {
+      console.log(edited);
+      res.redirect("back");
+    }
+  })
+
+});
+
+app.get("/saved", function(req,res){
+    
+    Article.find({}, function(err, doc){
+
+    res.render("saved", {article: doc});
+
+  });  
+
+});
+
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
-app.listen(3000, function() {
-  console.log("App running on port 3000!");
+app.listen(8080, function() {
+  console.log("App running on port 8080!");
 });
 
 
