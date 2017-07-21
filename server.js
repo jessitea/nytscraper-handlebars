@@ -37,13 +37,22 @@ app.use(express.static("public"));
 
 var databaseUri= 'mongodb://localhost/nytScraper';
 
-if (process.env.MONGODB_URL) {
+mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
 
-  mongoose.connect(process.env.MONGODB_URL);
-}
-else {
-  mongoose.connect(databaseUri);
-}
+  // Save database object from the callback for reuse.
+  db = database;
+  console.log("Database connection ready");
+
+  // Initialize the app.
+  var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+  });
+});
 
 // Database configuration with mongoose
 
@@ -220,8 +229,8 @@ app.get("/saved", function(req,res){
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
-app.listen(8080, function() {
-  console.log("App running on port 8080!");
-});
+// app.listen(8080, function() {
+//   console.log("App running on port 8080!");
+// });
 
 
